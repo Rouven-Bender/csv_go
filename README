@@ -1,0 +1,37 @@
+									  What
+									 ======
+A libary that allows you to ergonomically unmarshal csv's into structs
+```go
+package example
+
+type Content struct {
+	Betrag float64 `csv:"A"`
+	Text string `csv:"b"`
+	Enum int `csv:"c"`
+}
+
+func main() {
+	f, _ := os.Open(filename)
+	defer f.Close()
+	r := csv_go.NewReader[Content](f)
+	//r.SetComma(';') // if you have european csv's
+	//r.SetGermanDecimal(true) // if you have floats as 1,35
+	//_ = r.SkipLine() // if you have a column name header to skip
+
+	for line := range r.Iter() {
+		// DO WHATEVER
+	}
+	// There is also a .Read if you hate iterators
+}
+```
+Supported types you can have in you struct: int, string, float32, float64.
+You can have the column letters in upper or lower case
+multi-letter columnnames also work (eg. "AC", "aac")
+
+									  Why
+									 =====
+Have been doing alot of csv transformation scripts and having to write the
+serializing/deserializing to and from string slices to use the nice csv libary
+sucked. Had a few functions already written but wasn't as refined as I would
+have liked so this is me polishing it to my liking and packaging it for future
+use.
