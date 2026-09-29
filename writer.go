@@ -74,11 +74,10 @@ func (w *Writer[T]) Write(record *T) error {
 		default:
 			return fmt.Errorf("can't marshal field of type: %v", field.Type)
 		}
-
-		err := w.csvwriter.Write(strs)
-		if err != nil {
-			return err
-		}
+	}
+	err := w.csvwriter.Write(strs)
+	if err != nil {
+		return err
 	}
 
 	return nil
